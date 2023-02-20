@@ -3,7 +3,19 @@
 #include<functional>
 using namespace std;
 
+namespace bit
+{
+    template<class T,class Container = vector<T>>
 
+    class priority_queue
+    {
+        public:
+
+
+        private:
+        Container _con;
+    };
+}
 
 
 
