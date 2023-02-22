@@ -37,6 +37,25 @@ typedef struct Heap
 
 
 
+bool HeapEmpty(HP* hp)
+{
+    assert(hp);
+    return hp->size ==0;
+}
+
+
+int HeaSpize(HP* hp)
+{
+    return hp->size;
+}
+
+void Swap(HPDataType* px,HPDataType* py)
+{
+    HPDataType tem  = *px;
+    *px = *py;
+    *py = tem;
+}
+
 
 void HeapInit(HP* hp){
     assert(hp);
@@ -76,6 +95,38 @@ void AdjustUp(HPDataType *a,int n, int child)
 
 }
 
+template<class Compear = Less<HPDataType>>
+void AdjustDown(HPDataType *a,int n, int parent)
+{
+    Compear _com;
+    assert(a);
+    int child = parent*2+1;
+    while (child < n )
+    {
+
+        //选出左右孩子中小的哪一个
+        if(child+1 < n && _com(a[child+1],a[child]))
+        {
+                child++;
+        }
+        if(_com(a[child],a[parent]))
+        {
+            Swap(&a[child],&a[parent]);
+            parent = child;
+            child = parent*2 +1 ;
+        }
+        else
+        {
+            break;
+        }
+
+        
+    }
+    
+
+}
+
+
 
 
 void Heappush(HP* hp,HPDataType x ){
@@ -102,8 +153,24 @@ void Heappush(HP* hp,HPDataType x ){
 
 
 
+//删除堆顶数据 ，和最后位置元素交换，向下调整
+void HeapPop(HP* hp){
+    assert(hp);
+    assert(!HeapEmpty(hp));
+    Swap(&hp->a[0], &hp->a[hp->size-1]);
+    hp->size--;
+    AdjustDown<Greater<HPDataType>>(hp->a,hp->size,0);
 
-void HeapPop(HP* hp){}
+}
+
+void HeapPrint(HP* hp)
+{
+    for(int i=0; i < hp->size;i++)
+    {
+        printf("%d  ",hp->a[i]);
+    }
+
+}
 
 
 
@@ -117,10 +184,11 @@ void test01()
         Heappush(&hp,a[i]);
     }
 
-    for(int i=0; i < hp.size;i++)
-    {
-        printf("%d  ",hp.a[i]);
-    }
+    HeapPop(&hp);
+    HeapPrint(&hp);
+
+    
+    
 }
 
 
