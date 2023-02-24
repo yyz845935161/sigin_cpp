@@ -146,7 +146,7 @@ void Heappush(HP* hp,HPDataType x ){
     }
     hp->a[hp->size] = x;
     hp->size++;
-    AdjustUp<Greater<HPDataType>>(hp->a,hp->size,hp->size-1);
+    AdjustUp<Less<HPDataType>>(hp->a,hp->size,hp->size-1);
     
 }
 
@@ -159,7 +159,7 @@ void HeapPop(HP* hp){
     assert(!HeapEmpty(hp));
     Swap(&hp->a[0], &hp->a[hp->size-1]);
     hp->size--;
-    AdjustDown<Greater<HPDataType>>(hp->a,hp->size,0);
+    AdjustDown<Less<HPDataType>>(hp->a,hp->size,0);
 
 }
 
@@ -169,14 +169,45 @@ void HeapPrint(HP* hp)
     {
         printf("%d  ",hp->a[i]);
     }
+    printf("\n");
 
 }
+
+
+template<class T = Greater<int>>
+void HeapSort(int* a,int n)
+{
+    //把a构建成小堆 向上调整
+    // for(int i=1; i < n;++i)
+    // {
+    //     AdjustUp<Less<HPDataType>>(a,n,i);
+    // }
+
+    //建立大堆
+    for(int i=(n-1-1)/2;i>=0;i--)
+    {
+        AdjustDown<T>(a,n,i);
+    }
+
+    int end = n-1;
+    while(end>0)
+    {
+        int temp = a[0];
+        a[0] = a[end];
+        a[end] = temp;
+        AdjustDown<T>(a,end--,0); 
+
+    }
+    
+    
+}
+
 
 
 
 void test01()
 {
-    int a[] = {70,56,30,25,15,10,75};
+    int a[] = {70,56,30,25,15,10,75,33,50,69};
     HP hp;
     HeapInit(&hp);
     for(int i=0;i < sizeof(a)/sizeof(a[0]);i++)
@@ -184,8 +215,18 @@ void test01()
         Heappush(&hp,a[i]);
     }
 
-    HeapPop(&hp);
+    // HeapPop(&hp);
     HeapPrint(&hp);
+
+    HeapSort(a,sizeof(a)/sizeof(a[0]));
+
+    for(int i=0;i < sizeof(a)/sizeof(a[0]);i++)
+    {
+        // Heappush(&hp,a[i]);
+        printf("%d  ",a[i]);
+    }
+
+
 
     
     
