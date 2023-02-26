@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 using namespace std;
+#include<string>
 
 
 
@@ -68,3 +69,48 @@ public:
         return isSymmetric2(root->left,root->right);
     }
 };
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct TreeNode {
+    char val;
+    TreeNode* left;
+    TreeNode* right;
+};
+
+TreeNode* createTree(const string& pre_str,int& cur)
+{
+
+    if(pre_str[cur] == '#') return nullptr;
+    TreeNode* root = new TreeNode();
+    root->val = pre_str[cur];
+    root->left = createTree(pre_str,++cur);
+    root->right = createTree(pre_str,++cur);
+    return root;
+}
+
+
+void InOrder(TreeNode* root)
+{
+    if(root ==nullptr)return;
+    InOrder(root->left);
+    cout<<root->val<<" ";
+    InOrder(root->right);
+
+}
+
+int main() {
+    string pre_str;
+    cin >> pre_str;
+    int cur = 0;
+    TreeNode* root=  createTree(pre_str,cur);
+    InOrder(root);
+
+
+
+}
+// 64 位输出请用 printf("%lld")
