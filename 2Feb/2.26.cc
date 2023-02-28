@@ -44,40 +44,74 @@ void printf_vec(const vector<int> &v)
 void ShellSort(vector<int> &v)
 {
     // 按gap分组数据进行预排序
-    //gap越大，预排越快
-    //gap越小，预排越慢
+    // gap越大，预排越快
+    // gap越小，预排越慢
     int gap = 3;
-    for(int j =0;j<gap;++j)
-    {
+    for (int j = 0; j < gap; ++j)
+    { 
 
-    for (int i = 0; i < v.size() - gap; i+=gap)
-    {
-        int end = i;
-        int x = v[end + gap];
-        while (end >= 0)
+        for (int i = 0; i < v.size() - gap; i += gap)
         {
-            /* code */
-            if (v[end] > x)
+            int end = i;
+            int x = v[end + gap];
+            while (end >= 0)
             {
-                v[end + gap] = v[end];
-                end -= gap;
+                /* code */
+                if (v[end] > x)
+                {
+                    v[end + gap] = v[end];
+                    end -= gap;
+                }
+                else
+                {
+                    break;
+                }
             }
-            else
-            {
-                break;
-            }
+            v[end + gap] = x;
         }
-        v[end + gap] = x;
-    }
     }
 }
+
+void SelecSort(vector<int> &v)
+{
+    int begin = 0, end = v.size() - 1;
+
+    for (size_t j = 0; j < v.size() / 2; j++)
+    {
+        int min = begin;
+        int max = end;
+        for (size_t i = begin; i < end; i++)
+        {
+            /* code */
+            if (v[i] < v[min])
+            {
+                min = i;
+            }
+            if (v[i] > v[max])
+            {
+                max = i;
+            }
+        }
+        swap(v[min], v[begin]);
+        if(begin == max)
+        {
+            max = min;
+        }
+        swap(v[max], v[end]);
+
+        --begin;
+        --end;
+    }
+}
+
 
 void test01()
 {
     vector<int> v = {6, 5, 1, 3, 4, 9, 8, 10};
     printf_vec(v);
 
-    InserSort(v);
+    // InserSort(v);
+    SelecSort(v);
     printf_vec(v);
 }
 
