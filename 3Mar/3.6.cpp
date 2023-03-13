@@ -215,7 +215,7 @@ public:
 
     bool EraseR(const K& key)
     {
-
+        return _EraseR(_root,key);
     }
 
 
@@ -294,7 +294,7 @@ private:
                     min = min->_left;
                 }
                 swap(min->_key,root ->_key);
-                _EraseR(root->_right,_key)
+                return _EraseR(root->_right,_key)
             }
             delete del;
             return true;

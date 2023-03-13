@@ -172,7 +172,7 @@ void QuickSort(vector<int>& v,int left,int right)
         return;
     }
 
-    int keyi = Partion4(v,left,right);
+    int keyi = Partion(v,left,right);
     QuickSort(v,left,keyi-1);
     QuickSort(v,keyi+1,right);
 }
@@ -238,8 +238,8 @@ void test01()
 
     // InserSort(v);
     // BubbleSort(v);
-    // QuickSort(v,0,v.size()-1);
-    QuickSortNoneR(v,0,v.size()-1);
+    QuickSort(v,0,v.size()-1);
+    // QuickSortNoneR(v,0,v.size()-1);
     printf_vec(v);
 }
 

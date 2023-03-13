@@ -107,6 +107,19 @@ public:
                 else if (parent->_bf == 2 && cur->_bf == 1)
                 {
                     RotateL(parent);
+
+                }
+                // 左右双旋
+                else if (parent->_bf == -2 && cur->_bf == 1)
+                {
+                    RotateLR(parent);
+
+                }
+                // 右左双旋
+                else if (parent->_bf == 2 && cur->_bf == -1)
+                {
+                    RotateRL(parent);
+
                 }
             }
 
@@ -115,10 +128,40 @@ public:
                 // 说明之前的平衡树就有问题
                 assert(false);
             }
+            break;
         }
         return true;
     }
 
+    void InoderTree(Node *root)
+    {
+        if (root == nullptr)
+            return;
+
+        InoderTree(root->_left);
+        cout << root->_kv.first << " ";
+        InoderTree(root->_right);
+    }
+
+    bool IsBalance()
+    {
+        return _IsBalance(_root);
+    }
+
+    int Hight(Node *root)
+    {
+        if (root == nullptr)
+            return 0;
+        return max(Hight(root->_left), Hight(root->_right)) + 1;
+    }
+
+    Node *getRoot()
+    {
+        return _root;
+    }
+
+private:
+    Node *_root;
     void RotateR(Node *parent)
     {
         Node *subL = parent->_left;
@@ -157,7 +200,7 @@ public:
         parent->_parent = subR;
 
         parent->_right = subRL;
-        if (subRL)  //如果有又子树有左子树
+        if (subRL) // 如果有又子树有左子树
             subRL->_parent = parent;
 
         if (parent == _root)
@@ -172,42 +215,112 @@ public:
                 parentParent->_left = subR;
             else
                 parentParent->_right = subR;
-             subR->_parent = parentParent;
+            subR->_parent = parentParent;
         }
-        subR->_bf = parent->_bf =0;
-       
+        subR->_bf = parent->_bf = 0;
     }
 
-    void InoderTree(Node *root)
+    void RotateLR(Node *parent)
     {
-        if (root == nullptr)
-            return;
+        Node* subL = parent->_left;
+        Node* subLR = subL->_right;
+        int bf = subLR->_bf;
 
-        InoderTree(root->_left);
-        cout << root->_kv.first << " ";
-        InoderTree(root->_right);
+        RotateL(parent->_left);
+        RotateR(parent);
+
+        if(bf == 1) 
+        {
+            parent ->_bf =0;
+            subL->_bf = -1;
+            subLR->_bf = 0;
+        }
+        else if(bf==-1)
+        {
+            parent ->_bf =1;
+            subL->_bf = 0;
+            subLR->_bf = 0;
+        }
+        else if(bf == 0)
+        {
+            parent ->_bf =0;
+            subL->_bf = 0;
+            subLR->_bf = 0;
+        }
+        else
+        {
+            assert(false);
+        }
     }
 
-    Node *getRoot()
+    void RotateRL(Node *parent)
     {
-        return _root;
-    }
 
-private:
-    Node *_root;
+        Node* subR = parent->_right;
+        Node* subRL = subR->_left;
+        int bf = subRL->_bf;
+
+        RotateR(parent->_right);
+        RotateL(parent);
+
+        if(bf == 1) 
+        {
+            parent ->_bf =-1;
+            subR->_bf = 0;
+            subRL->_bf = 0;
+        }
+        else if(bf==-1)
+        {
+            parent ->_bf =0;
+            subR->_bf = 1;
+            subRL->_bf = 0;
+        }
+        else if(bf == 0)
+        {
+            parent ->_bf =0;
+            subR->_bf = 0;
+            subRL->_bf = 0;
+        }
+        else
+        {
+            assert(false);
+        }
+
+
+    }
+    bool _IsBalance(Node *root)
+    {
+        if (root == NULL)
+            return true;
+
+        int leftHeight = Hight(root->_left);
+        int righttHeight = Hight(root->_right);
+
+        if(righttHeight-leftHeight != root->_bf)
+        {
+            cout<< root->_kv.first<<" :当前平衡节点平衡因子现在是："<<root->_bf<<endl;
+            cout<< root->_kv.first<<" :当前平衡节点平衡因子应该是："<<righttHeight-leftHeight<<endl;
+        }
+
+
+        return abs(righttHeight - leftHeight) < 2 && _IsBalance(root->_left) && _IsBalance(root->_right);
+    }
 };
 
 void TestAVLTree()
 {
     AVLTree<int, int> t;
     // int a[] = {5, 4, 3, 2, 1, 0};
+    // int a[] = {16, 3, 7, 11, 9, 26, 18, 14, 15};
     int a[] = {0,1,2,3,4,5};
     for (auto e : a)
     {
         t.Insert(make_pair(e, e));
+        cout<<"插入的"<<e<<"平衡:"<<endl<<t.IsBalance()<<endl;
         /* code */
-    }
+    } 
     t.InoderTree(t.getRoot());
+    cout <<endl <<t.IsBalance() << endl;
 }
 
 int main()

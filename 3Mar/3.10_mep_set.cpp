@@ -5,7 +5,8 @@
 using namespace std;
 #include <vector>
 #include <functional>
-#include<algorithm>
+#include <algorithm>
+#include <queue>
 void test01()
 {
     set<int> s;
@@ -54,6 +55,40 @@ void tese02()
     }
 }
 
+class Solution
+{
+public:
+    struct Greater
+    {
+        bool operator()(const pair<string, int> &a, const pair<string, int> &b)
+        {
+            return a.second > b.second;
+        }
+    };
+    vector<string> topKFrequent(vector<string> &words, int k)
+    {
+
+        vector<string> ans;
+        map<string, int> count;
+        for (auto i : words)
+        {
+            count[i]++;
+        }
+        priority_queue<pair<string, int>, vector<pair<string, int>>, Greater> pq;
+
+        for (auto i : count)
+        {
+            pq.push(i);
+        }
+
+        while (--k)
+        {
+            ans.push_back(pq.top().first);
+        }
+        return ans;
+    }
+};
+
 void tese03()
 {
     vector<int> v = {5, 9, 7, 4, 6, 3, 2, 1};
@@ -62,7 +97,7 @@ void tese03()
         cout << i << " ";
     }
     cout << endl;
-    sort(v.begin(),v.end(),greater<int>());
+    sort(v.begin(), v.end(), greater<int>());
     for (auto &i : v)
     {
         cout << i << " ";
@@ -70,10 +105,18 @@ void tese03()
     cout << endl;
 }
 
+void test04()
+{
+    vector<string> v = {"i", "love", "leetcode", "i", "love", "coding"};
+    Solution a;
+    a.topKFrequent(v,2);
+}
+
 int main()
 {
     // test01();
     // tese02();
-    tese03();
+    // tese03();
+    test04();
     return 0;
 }
