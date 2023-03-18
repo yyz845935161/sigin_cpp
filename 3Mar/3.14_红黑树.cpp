@@ -108,4 +108,72 @@ public:
 
 private:
     Node *_root;
+    void RotateR(Node *parent)
+    {
+        Node *subL = parent->_left;
+        Node *subLR = subL->_right;
+        parent->_left = subLR;
+        if (subLR)
+            subLR->_parent = parent;
+
+        Node *parentParent = parent->_parent;
+        subL->_right = parent;
+        parent->_parent = subL;
+
+        if (parent == _root)
+        {
+            _root = subL;
+            _root->_parent = nullptr;
+        }
+        else
+        {
+            if (parentParent->_left = parent)
+                parentParent->_left = subL;
+            else
+                parentParent->_right = subL;
+            subL->_parent = parentParent;
+        }
+ 
+    }
+
+    void RotateL(Node *parent)
+    {
+        Node *subR = parent->_right;
+        Node *subRL = subR->_left;
+        Node *parentParent = parent->_parent;
+
+        subR->_left = parent;
+        parent->_parent = subR;
+
+        parent->_right = subRL;
+        if (subRL) // 如果有又子树有左子树
+            subRL->_parent = parent;
+
+        if (parent == _root)
+        {
+            _root = subR;
+            _root->_parent = nullptr;
+        }
+
+        else
+        {
+            if (parentParent->_left == parent)
+                parentParent->_left = subR;
+            else
+                parentParent->_right = subR;
+            subR->_parent = parentParent;
+        }
+
+    }
+
+    void _InoderTree(Node *root)
+    {
+        if (root == nullptr)
+            return;
+
+        _InoderTree(root->_left);
+        cout << root->_kv.first << " ";
+        _InoderTree(root->_right);
+    }
+    // IsBalacne(Node *root)
 };
