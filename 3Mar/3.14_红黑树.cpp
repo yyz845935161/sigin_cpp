@@ -16,6 +16,14 @@ struct RBTreeNode
     RBTreeNode<K, V> *_parent;
     pair<K, V> _kv;
     Colour _col;
+    RBTreeNode(const pair<K,V>& kv)
+    :_left(nullptr)
+    ,_right(nullptr)
+    ,_parent(nullptr)
+    ,_kv(kv),
+    _col(BLACK)
+    {}
+
 };
 
 template <class K, class V>
@@ -25,7 +33,7 @@ class RBTree
 
 public:
     RBTree()
-        : root(nullptr)
+        : _root(nullptr)
     {
     }
 
@@ -82,22 +90,56 @@ public:
                     greaterfather->_col = RED;
                     cur = greaterfather;
                     parent = cur->_parent;
-                }
-                else  //叔叔不存在/存在为黑
+                } 
+                else  //2叔叔不存在/存在为黑
                 {   
-                    if(cur==parent->_left)
+                    if(cur==parent->_left) //纯粹的左边 是由情况一变过来的
                     {
                         RotateR(greaterfather);
                         parent ->_col = BLACK;
                         greaterfather->_col = RED;
                     }
-                    break;
+                    else 
+                    {//双旋
+                        RotateL(parent);
+                        RotateR(greaterfather);
+                        cur->_col=BLACK;
+                        greaterfather->_col=RED;
+                    }
+                    break; //旋转完一定满足黑红树的性质
                 }
             }
-
-            else  //parent == greaterfather ->_right
+            //插入的在右边
+            else  //parent == greaterfather ->_right  
             {
+                Node* uncle = greaterfather->_left;
+                //1叔叔存在 且为红
+                if(uncle && uncle->_col == RED)
+                {
+                    //变色+继续调整
+                    parent->_col = uncle->_col = BLACK;
+                    greaterfather->_col = RED;
+                    cur = greaterfather;
+                    parent = cur->_parent;
+                }
+                else  //2叔叔不存在/存在为黑
+                {   
+                    if(cur==parent->_right) //纯粹的左边 是由情况一变过来的
+                    {
+                        RotateL(greaterfather);
+                        parent ->_col = BLACK;
+                        greaterfather->_col = RED;
+                    }
 
+                    else
+                    {
+                        RotateR(parent);
+                        RotateL(greaterfather);
+                        cur->_col=BLACK;
+                        greaterfather->_col=RED;
+                    }
+                    break; //旋转完一定满足黑红树的性质
+                }
             }
             
         }
@@ -105,6 +147,66 @@ public:
         _root->_col = BLACK; 
         
     }
+
+
+    
+    void InoderTree()
+    {
+        _InoderTree(_root);
+    }
+
+    bool IsBalacne()
+    {
+        if(_root && _root->_col == RED) 
+        {
+            cout<<"根节点不是黑色"<<endl;
+            return false;
+        
+        }
+
+        //最左路劲的黑色节点为基准值
+        int banchmark = 0;
+        Node * left = _root;
+        while(left)
+        {
+            if(left->_col == BLACK)
+            banchmark++;
+            left = left->_left;
+        }
+        int blackNum=0;
+
+        return _IsBalacne(_root,banchmark,blackNum);
+        
+    }
+
+
+
+    bool _IsBalacne(Node *root,int banchmark,int blackNum)
+    {
+        
+        if(root ==nullptr) 
+        {
+        if(banchmark!=blackNum)
+        {
+            cout<<"黑色节点数量不相等"<<endl;
+            return false;
+        }
+
+        return true;
+
+
+        }
+        if(root->_col == RED && root->_parent->_col==RED) 
+        {
+            cout<<"出现连续红色"<<endl;
+            return false;
+        }
+
+        if(root->_col == BLACK) ++blackNum;
+
+        return _IsBalacne(root->_left,banchmark,blackNum)&&_IsBalacne(root->_right,banchmark,blackNum);
+    }
+
 
 private:
     Node *_root;
@@ -127,7 +229,7 @@ private:
         }
         else
         {
-            if (parentParent->_left = parent)
+            if (parentParent->_left == parent)
                 parentParent->_left = subL;
             else
                 parentParent->_right = subL;
@@ -177,3 +279,29 @@ private:
     }
     // IsBalacne(Node *root)
 };
+
+void testBRTree()
+{
+    RBTree<int, int> t;
+    // int a[] = {7,6,5, 4, 3, 2, 1, 0};
+    int a[] = {16, 3, 7, 11, 9, 26, 18, 14, 15};//有问题
+    // int a[] = {16, 3, 7,11,9};
+    // int a[] = {0,1,2,3,4,5,6,7};
+    
+    // int a[] = {4,2,6,1,3,5,15,7,16,14};
+    for (auto e : a)
+    {
+        t.Insert(make_pair(e, e));
+        /* code */
+    } 
+    t.InoderTree();
+    cout <<endl << t.IsBalacne();
+}
+
+
+int main()
+{
+
+    testBRTree();
+    return 0;
+}

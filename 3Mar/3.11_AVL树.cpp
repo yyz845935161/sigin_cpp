@@ -181,7 +181,7 @@ private:
         }
         else
         {
-            if (parentParent->_left = parent)
+            if (parentParent->_left == parent)
                 parentParent->_left = subL;
             else
                 parentParent->_right = subL;
