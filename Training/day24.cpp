@@ -110,13 +110,13 @@ void deepout(vector<vector<int>> &vv, int n, int m, int i, int j, vector<vector<
             ans = path_temp;
     }
 
-    if (bef != 'd')
+    // if (bef != 'd')
         deepout(vv, n, m, i + 1, j, ans, 'u');
-    if (bef != 'u')
+    // if (bef != 'u')
         deepout(vv, n, m, i - 1, j, ans, 'd');
-    if (bef != 'r')
+    // if (bef != 'r')
         deepout(vv, n, m, i, j + 1, ans, 'l');
-    if (bef != 'l')
+    // if (bef != 'l')
         deepout(vv, n, m, i, j - 1, ans, 'r');
 
     vv[i][j] = 0; // 回溯
@@ -141,7 +141,15 @@ int main()
                 cin >> vv[i][j];
             }
         }
-        //     cout<<'-';
+        // for (auto& e:vv)
+        // {
+        //     for (auto a:e) {
+        //         cout << a << ' ';
+        //     }
+        //     cout<<endl;
+            
+        // }
+            // cout<<'-';
         deepout(vv, n, m, 0, 0, ans, 'r');
 
         for (int i = 0; i < ans.size(); i++)
