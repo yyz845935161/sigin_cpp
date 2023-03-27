@@ -7,6 +7,40 @@
 using namespace std;
 #include <stack>
 
+// #include <cmath>
+// #include <complex>
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// int main() {
+
+//     vector<int> v;
+    
+
+
+//     int a;
+//     while (cin >> a) { // 注意 while 处理多个 case
+//         v.push_back(0);
+//         v.push_back(1);
+//         for (int i=2; i<a+2; i++) {
+//             v.push_back(v[i-1]+v[i-2]);
+//             if(a <=v[i])
+//             {
+//                 cout<<min(abs(v[i-1] -a),abs(v[i]-a) );
+//                 return 0;
+//             }
+//         }
+//         v.clear();
+//     }
+
+
+//      return 0;   
+//     }
+// 64 位输出请用 printf("%lld")
+
+
+
 void printf_vec(const vector<int> &v)
 {
     for (size_t i = 0; i < v.size(); i++)
@@ -55,6 +89,33 @@ void QuickSort(vector<int>& v,int left,int right)
 }
 
 
+class Parenthesis {
+public:
+    bool chkParenthesis(string A, int n) {
+        // write code here
+        stack<char> st;
+
+        for (auto e:A) {
+        
+            if(e == ')')
+            {
+                while (!st.empty() && st.top()!='(') {
+                    st.pop();
+                
+                }
+                if(st.empty()) return  false;
+                else st.pop();
+            }
+            else st.push(e);
+        }
+        while (!st.empty()) {
+            if(st.top()=='(') return false;
+            st.pop();
+        
+        }
+        return  true;
+    }
+};
 
 void test01()
 {

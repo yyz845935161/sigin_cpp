@@ -186,7 +186,7 @@ namespace HashBucket
                 while (cur)
                 {
                     Node* next = cur->next;
-                    free(cur);
+                    delete cur;
                     cur = next;
                     /* code */
                 }
@@ -234,7 +234,7 @@ namespace HashBucket
             _tables[hashi] = newnode;
             ++_size;
 
-            return true;
+            return true; 
         }
 
         Node *Find(const K &key)
@@ -259,6 +259,37 @@ namespace HashBucket
             }
 
             return nullptr;
+        }
+
+        bool Erase(const K& key)
+        {
+            if(_tables.size()==0) return nullptr;
+
+            size_t hashi = key% _tables.size();
+            Node *cur = _tables[hashi];
+            Node *prev = nullptr;
+            while (cur)
+            {
+                if (_tables.size() == 0)
+                    return nullptr;
+
+                if (cur->_kv.first == key)
+                {
+                    if(!prev)
+                    {
+                        prev->_next=cur->_next;
+                    }
+                    else
+                    {
+                        _tables[hashi] = cur->_next;
+                    }
+                    delete cur;
+                    return true;
+                }
+                prev= cur;
+                cur=cur->_next;
+            }
+            return false;
         }
 
     private:
