@@ -33,31 +33,31 @@ using namespace std;
 int main() {
     int n;
     while (cin >> n) { // 注意 while 处理多个 case
-        map<string,int> m;
+        map<string, int> m;
         for (int i = 0; i < n; i++) {
             string temp;
-            cin>>temp;
+            cin >> temp;
             // m.insert(make_pair(temp,0));
-            m[temp]=0;
+            m[temp] = 0;
         }
 
-        for(auto& e:m){
-            for(auto& d:m){
-                if(e!=d && d.first.find(e.first)!=-1)
-                {
-                    e.second=-1;
+        for (auto& e : m) {
+            for (auto& d : m) {
+                if (e != d && e.first.size()<d.first.size() && d.first.find(e.first) == 0 && d.first[e.first.size()] == '/') {
+                    
+                    e.second = -1;
                     break;
                 }
             }
         }
 
-        for(auto e:m)
-        {
-            if(e.second !=-1) cout<<"mkdir -p "<<e.first<<endl;
+        for (auto e : m) {
+            if (e.second != -1) cout << "mkdir -p " << e.first << endl;
         }
-        cout<<endl;
+        cout << endl;
     }
 
     return 0;
 }
+// 64 位输出请用 printf("%lld")
 // 64 位输出请用 printf("%lld")
