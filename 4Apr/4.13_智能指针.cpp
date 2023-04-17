@@ -144,6 +144,16 @@ namespace bit
             return *_ptr;
         }
 
+        int user_count()
+        {
+            return *_pCount;
+        }
+
+        T* get() const
+        {
+            return _ptr;
+        }
+
     private:
         T *_ptr;
         // static int _count; //引用技计数，如果调用了多个类来管理，就会出问题
@@ -152,6 +162,47 @@ namespace bit
 
     // template<class T>//引用技计数，如果调用了多个类来管理，就会出问题
     // int shared_ptr<T>::_count = 0;//引用技计数，如果调用了多个类来管理，就会出问题
+
+
+    //辅助型智能指针，配合shared_ptr循环引用问题
+    template<class T>
+    class weak_ptr
+    {
+    private:
+        /* data */
+        T* _ptr;
+    public:
+        weak_ptr(/* args */)
+        :_ptr(nullptr)
+        {}
+        
+        weak_ptr(const shared_ptr<T>& sp)
+        :_ptr(sp.get())
+        {} 
+
+        weak_ptr(const weak_ptr<T>& wp)
+        :_ptr(wp._ptr)
+        {}
+
+        weak_ptr<T>& operator=(const shared_ptr<T>& sp)
+        {
+            _ptr = sp.get();
+
+            return *this;
+        }
+
+        T& operator*()
+        {
+            return *_ptr;
+        }
+
+        T* operator->()
+        {
+            return _ptr;
+        }
+    };
+    
+    
 
 }
 
@@ -180,8 +231,8 @@ struct Node
     // std::shared_ptr<Node> _prev; //
     /* data */
 
-    std::weak_ptr<Node> _next; //这样就可以解决循环引用
-    std::weak_ptr<Node> _prev; //
+    bit::weak_ptr<Node> _next; //这样就可以解决循环引用
+    bit::weak_ptr<Node> _prev; //
     
     ~Node()
     {
@@ -195,14 +246,17 @@ struct Node
 //循环引用
 void test_shared_ptr2()
 {
-    std::shared_ptr<Node> n1(new Node);
-    std::shared_ptr<Node> n2(new Node);
+    bit::shared_ptr<Node> n1(new Node);
+    bit::shared_ptr<Node> n2(new Node);
     n1->_next = n2;
     n2->_next = n1;
 }
 
+
+
 int main()
 {
-    test_shared_ptr();
+    // test_shared_ptr();
+    test_shared_ptr2();
     return 0;
 }
