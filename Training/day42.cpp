@@ -86,17 +86,34 @@ int bfs(vector<string>& map,int m,int n)
     while(!q.empty())
     {
         Position cur = q.front();
+        q.pop();
         // 遍历该位置，
         flag[cur.x][cur.y] = true;
+
+        if(cur.x == out.x && cur.y==out.y)
+        {
+            return cur.level;
+        }
 
 
         Position next;
         for(int i=0;i<4;++i)
         {
+            //检测位置是否合法
+            //是否为通路
+            //是否遍历过
             next.x = cur.x + direct[i][0];
             next.y = cur.y + direct[i][1];
+            if(next.x >=0 & next.x <m && next.y >=0 && next.y < n && map[next.x][next.y] =='.' && !flag[next.x][next.y])
+            {
+                next.level = cur.level+1;
+                q.push(next);
+            }
+
         }
     }
+
+    return 0;
 
 
 }
