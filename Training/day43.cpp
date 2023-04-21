@@ -105,11 +105,14 @@ void find_merge(int i,set<vector<int>>& ans,vector<int> v,int sum)
         ans.insert(v);
         return;
     }
+
     if(i==a)
     {
         return;
     }
-    
+
+
+
     else if(sum>b)
     {
         return;
@@ -119,12 +122,14 @@ void find_merge(int i,set<vector<int>>& ans,vector<int> v,int sum)
 
     for(int j=i;j<a;j++)
     {
-        v.push_back(i+1);
-        sum+=(i+1);
-        find_merge(j,ans,v,sum);
+        v.push_back(j+1);
+        sum+=(j+1);
+        find_merge(j+1,ans,v,sum);
         v.pop_back();
-        sum-=(i-1);
+        sum= sum -j-1;
     }
+
+
 
 }
 
