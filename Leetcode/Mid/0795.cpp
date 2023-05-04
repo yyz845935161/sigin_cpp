@@ -1,3 +1,7 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
 class Solution {
 public:
 
@@ -14,7 +18,10 @@ public:
                 for(int k=j+1;k<i;k++)
                 {
                     if(nums[k]<=right && nums[k]>=left)
-                    ans++;
+                    {
+                        ans+=(i-k);
+                        break;
+                    }
                 }
             }
         }
