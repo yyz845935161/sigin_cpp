@@ -2,34 +2,37 @@
 using namespace std;
 #include <string>
 
-bool isReback(const string & s)
+// 本题为考试单行多行输入输出规范示例，无需提交，不计分。
+#include <iostream>
+using namespace std;
+
+bool IsReBack(const string& s)
 {
-
-
-    auto l = s.begin();
-    auto r = s.end()-1;
-    while (l<r) {
-        if(*l != *r) return false;
-        l++;
-        r--;
+    int l=0,r=s.size()-1;
+    while(l<r)
+    {
+        if(s[l]!=s[r]) return false;
+        ++l,--r;
     }
     return true;
 }
 
+
 int main() {
-    string s1,s2;
-    int ans=0;
-    cin>>s1>>s2;
-    for (int i=0; i<=s1.size(); i++) {
-        string temp = s1;
-        temp.insert(i, s2);
-        if(isReback(temp)) ans++;
-
+    string s;
+    string c;
+    while(cin >> s >> c)
+    {// 注意，如果输入是多个测试用例，请通过while循环处理多个测试用例
+        int ans=0;
+        for(int i=0;i<=s.size();i++)
+        {
+            string temp=s;
+            temp.insert(i, c);
+            if(IsReBack(temp))ans++;
+        }
+    
+    cout<<ans<<endl;
     }
-    cout<<ans;
-
-
-
     
 }
 // 64 位输出请用 printf("%lld")
