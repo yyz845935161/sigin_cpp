@@ -32,3 +32,41 @@ int main() {
     
 }
 // 64 位输出请用 printf("%lld")
+
+
+class Solution {
+public:
+    
+    bool isNum(const char& a)
+    {
+        if(a<='9' && a>='0')return true;
+        else
+            return false;
+    }
+    
+    
+    int StrToInt(string str) {
+        int s_size = str.size();
+        int n=1;
+        int ans=0;
+        for(int i=0;i<s_size;i++)
+        {
+            if(isNum(str[s_size-i-1]))
+            {
+                ans+=n*(str[s_size-i-1]-'0');
+                n*=10;
+            }
+            else
+            {
+                if(i==s_size-1 && (str[s_size-i-1]=='-' || str[s_size-i-1] =='+'))
+                {
+                    if(str[s_size-i-1]=='-')
+                        ans= -ans;
+                }
+                else return 0;
+            }
+                
+        }
+        return ans;
+    }
+};
