@@ -13,9 +13,7 @@ int main(){
     return 0;
 }
 
-#include<iostream>
-#include<string>
-using namespace std;
+
 
 int main()
 {
@@ -45,5 +43,41 @@ int main()
     cout<<ans;
     
     
+    return 0;
+}
+
+
+// 本题为考试多行输入输出规范示例，无需提交，不计分。
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main(){
+
+    string a,b;
+    while(cin>>a>>b)
+    {
+        int ans=0;
+        vector<vector<int>> v(a.size()+1,vector<int>(b.size()+1,0));
+        for(int i=1;i<=a.size();i++)
+        {
+            for(int j=1;j<=b.size();j++)
+            {
+                if(a[i-1]==b[j-1])
+                {
+                    v[i][j]+=(v[i-1][j-1]+1);
+                    if(v[i][j] > ans)
+                        ans=v[i][j];
+                }
+                    
+            }
+        }
+        cout<<ans<<endl;
+        
+    }
+    
+
     return 0;
 }
