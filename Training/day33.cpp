@@ -22,6 +22,25 @@ int main() {
         cout << count<<endl;;
     }
 }
+#include <iostream>
+using namespace std;
+
+int main() {
+    // int a, b;
+    string a,b;
+    while (cin >> a >> b) { // 注意 while 处理多个 case
+        int i=0;
+        while(a.find(b)!= string::npos)
+        {
+            i++;
+
+            a.erase(a.find(b),b.size());
+        }
+        cout<<i<<endl;;
+    }
+}
+// 64 位输出请用 printf("%lld")
+
 
 #include <iostream>
 using namespace std;
