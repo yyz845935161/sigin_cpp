@@ -92,10 +92,7 @@ namespace bit
             
             return *this;
         }
-
-
-
-
+        
         T& operator*()
         {
             return *_ptr; 
