@@ -12,6 +12,43 @@ struct Less
     }
 };
 
+template <class T = int>
+int GetMidIndex(vector<T> &v,int begin,int end)
+{
+    int mid = (begin+end)>>2;
+    if(v[begin]>v[end])
+    {
+        if(v[mid]>v[begin])
+        {
+            return begin;
+        }
+        else if(v[mid]<v[end])
+        {
+            return end;
+        }
+        else
+        {
+            return mid;
+        }
+    }
+    else
+    {
+        if(v[mid]<v[begin])
+        {
+            return begin;
+        }
+        else if(v[mid]>v[end])
+        {
+            return end;
+        }
+        else
+        {
+            return mid;
+        }
+    }
+}
+
+
 
 //hoare版本
 template <class T = int, class Com = Less<T>>
@@ -26,6 +63,9 @@ void QuickSort(vector<T> &v,int begin,int end)
     int left=begin;
     int keyi=left;
     int right=end;
+    int midi = GetMidIndex(v,begin,end);
+    swap(v[midi],v[keyi]);
+
     while (left<right)
     {
         while (left<right &&_com(v[keyi],v[right]) )
@@ -45,6 +85,9 @@ void QuickSort(vector<T> &v,int begin,int end)
     QuickSort(v,left+1,end);
     // return left;
 }
+
+
+
 
 
 
