@@ -86,7 +86,56 @@ void InsertSort(vector<int>& v)
 
 }
 
+template<class T=int,class Com = Less<T>>
+void SelectSort(vector<int>& v)
+{
+    Com _com;
+    for(int i=0;i<v.size()/2;i++)
+    {
+        int mini = i;
+        int maxi = i;
+        int j=i;
+        while(j<v.size()-i)
+        {
+            if(_com(v[j],v[mini]))
+            {
+                mini = j;
+            }
+            if(_com(v[maxi],v[j]))
+            {
+                maxi = j;
+            }
+            j++;
 
+        }
+
+        swap(v[mini],v[i]);
+        if(maxi == i )
+        {
+            maxi = mini;
+        }
+        swap(v[maxi],v[v.size()-i-1]);
+    }
+}
+
+
+template<class T=int,class Com = Less<T>>
+void BullSort(vector<int>& v)
+{
+    Com _com;
+    for(int j=0; j<v.size();j++)
+    {
+        for(int i=1;i<v.size()-j;i++)
+    {
+        if(_com(v[i],v[i-1]))
+        {
+            swap(v[i],v[i-1]);
+        }
+    }
+    }
+    
+
+}
 
 
 int main()
@@ -94,13 +143,12 @@ int main()
     // vector<int> v = {2,2,2};
     // vector<int> v = {2,2,2,2,1,1,1,6,6,6};
     // vector<int> v = {7,6,5,4,3,2,1};
-    int* a = (int*)malloc(sizeof(int)*10);
-    a[0]=0;
-    a[1]=1;
     vector<int> v = {6,1,2,5,4,3,9,7,10,8};
     MyPrint(v);
     // QuickSort<int>(v,0,v.size()-1);
-    InsertSort(v);
+    // SelectSort(v);
+    BullSort(v);
+    // InsertSort(v);
     MyPrint(v);
 }
 
