@@ -59,7 +59,12 @@ vector<int> MergeSort(vector<int>& v) {
 
 vector<int> MergeSortNonR(vector<int>& v) {
     vector<int> temp(v.size());
-    _MergeSort(v,0,v.size()-1,temp);        
+    // _MergeSort(v,0,v.size()-1,temp);    
+
+    int gap = 1;
+
+
+
     return v;
 }
 
