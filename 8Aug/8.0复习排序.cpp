@@ -138,17 +138,72 @@ void BullSort(vector<int>& v)
 }
 
 
+template<class T=int,class Com = Less<T>>
+void _MergeSort(vector<int>& v,int begin,int end,vector<int>& temp)
+{
+    if(begin>=end)
+    {
+        return ;
+    }
+
+    int mid = (begin+end)/2;
+    _MergeSort(v,begin,mid,temp);
+    _MergeSort(v,mid+1,end,temp);
+
+    //[begin,mid][mid+1 , end]
+
+    Com _com;
+    int start1 = begin, end1 = mid;
+    int start2 = mid+1, end2 = end;
+    int j = begin;
+    while (start1<=end1 && start2 <= end2)
+    {
+        if(_com(v[start1],v[start2]))
+        {
+            temp[j++] = v[start1++];
+        }
+        else
+        {
+            temp[j++] = v[start2++];
+        }
+    }
+
+    while (start1<=end1)
+    {
+        temp[j++] = v[start1++];
+    }
+    while (start2<=end2)
+    {
+       temp[j++] = v[start2++];
+    }
+
+    for(int i=begin;i<=end;i++)
+    {
+        v[i] = temp[i];
+    }
+
+}
+
+
+template<class T=int,class Com = Less<T>>
+void MergeSort(vector<int>& v)
+{
+    vector<int> temp(v.size());
+    _MergeSort(v,0,v.size()-1,temp);
+
+}
 int main()
 {
     // vector<int> v = {2,2,2};
     // vector<int> v = {2,2,2,2,1,1,1,6,6,6};
     // vector<int> v = {7,6,5,4,3,2,1};
-    vector<int> v = {6,1,2,5,4,3,9,7,10,8};
+    vector<int> v = {6,1,2,5,4,3,9,7,10,8,2,2,2};
     MyPrint(v);
     // QuickSort<int>(v,0,v.size()-1);
     // SelectSort(v);
-    BullSort(v);
+    // BullSort(v);
     // InsertSort(v);
+    MergeSort(v);
     MyPrint(v);
 }
 
