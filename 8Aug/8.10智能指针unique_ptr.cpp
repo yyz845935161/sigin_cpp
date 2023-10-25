@@ -60,7 +60,6 @@ namespace bit
         unique_Ptr(unique_Ptr<T> &ap) = delete;
         unique_Ptr<T> &operator=(unique_Ptr<T> &ap) = delete;
 
-
         T &operator*()
         {
             return *_ptr;

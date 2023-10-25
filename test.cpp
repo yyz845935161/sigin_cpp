@@ -1,29 +1,37 @@
-#include<iostream>
+#include <iostream>
+#include<vector>
+#include<queue>
+
 using namespace std;
 
 
-
-void bigOrSmall()
+struct Task
 {
-    int i = 1;
-    char *p = (char*)&i;
-    if(*p == 1)
-    {
-        cout<<"小端"<<endl;
-    }
-    else
-    {
-        cout<<"大端"<<endl;
-    }
+    int id;
+    int t,p;
+};
 
+
+struct Less
+{
+    bool operator()(const Task& a, const Task& b)
+    {
+        return a.p <= b.p;
+    }
+};
+
+
+
+
+vector<vector<int>> ProcessTime(vector<Task> tasks)
+{
 
 }
+
 
 
 int main()
 {
 
-    bigOrSmall();
-    return 0;
-    
 }
+
