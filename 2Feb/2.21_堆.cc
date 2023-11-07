@@ -203,8 +203,6 @@ void HeapSort(int* a,int n)
 }
 
 
-
-
 void test01()
 {
     int a[] = {70,56,30,25,15,10,75,33,50,69};
@@ -225,11 +223,6 @@ void test01()
         // Heappush(&hp,a[i]);
         printf("%d  ",a[i]);
     }
-
-
-
-    
-    
 }
 
 
