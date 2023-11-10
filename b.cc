@@ -3,24 +3,33 @@
 using namespace std;
 #include <set>
 #include <vector>
+#include <string.h>
+#include <unistd.h>
 
-vector<int> m(vector<vector<int>>& k_sorted_array)
+const int aa = 10;
+int a2 = 100;
+int* p = &a2;
+
+
+int *const a2 =p; 
+
+class A
 {
-    set<int> s;
-    for (int i = 0; i < k_sorted_array.size();i++)
-    {
-        for (int j = 0; k_sorted_array[i].size(); j++)
-        {
-            s.insert(k_sorted_array[i][j]);
-        }
-    }
+public:
+    static int a1;
+    static int * a;
+    static const int * b  = a2 ;
+    static int*  const c; 
 
-    vector<int>  ans(s.begin(),s.end());
-    return ans;
-}
+};
+
+
+int A::a1 = 10;
+
+const int* A::b = &aa;
+int* const A::c = p;
 
 int main()
 {
-    // m();
-    // 
+
 }
